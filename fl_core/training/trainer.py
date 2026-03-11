@@ -25,6 +25,7 @@ def train(model, trainloader, epochs=1):
             optimizer.step()
 
     logger.info("Local training completed")
+    torch.save(model.state_dict(), "models/global_model.pt")
 
     return model
 

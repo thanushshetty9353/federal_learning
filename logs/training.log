@@ -408,3 +408,615 @@ e message 00fde502-e467-4f73-ad7c-3854e4f9b6bc
 2026-03-10 14:52:14,198 - DEBUG - gRPC channel closed
 2026-03-10 14:52:14,198 - INFO - Disconnect and shut down
 2026-03-10 14:52:14,198 - INFO - Disconnect and shut down
+2026-03-10 16:03:01,201 - INFO - Starting Federated Server
+2026-03-10 16:03:01,202 - INFO - Starting Flower server, config: num_rounds=5, no round_timeout
+2026-03-10 16:03:01,225 - INFO - Flower ECE: gRPC server running (5 rounds), SSL is disabled
+2026-03-10 16:03:01,226 - INFO - [INIT]
+2026-03-10 16:03:01,226 - INFO - Requesting initial parameters from one random client
+2026-03-10 16:04:31,760 - INFO - hospital_a joined training
+2026-03-10 16:04:31,760 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 16:04:31,778 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 16:04:31,783 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 16:04:31,797 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 16:04:31,801 - DEBUG - ChannelConnectivity.READY
+2026-03-10 16:04:31,804 - INFO - 
+2026-03-10 16:04:31,804 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:31,804 - INFO - Received: get_parameters message f7842e6a-60ba-4cd5-aefe-10b9cf8fa264
+2026-03-10 16:04:31,808 - INFO - Sent reply
+2026-03-10 16:04:31,809 - INFO - Received initial parameters from one random client
+2026-03-10 16:04:31,809 - INFO - Evaluating initial global parameters
+2026-03-10 16:04:31,809 - INFO - 
+2026-03-10 16:04:31,809 - INFO - [ROUND 1]
+2026-03-10 16:04:45,111 - INFO - hospital_b joined training
+2026-03-10 16:04:45,112 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 16:04:45,119 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 16:04:45,121 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 16:04:45,122 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 16:04:45,122 - DEBUG - ChannelConnectivity.READY
+2026-03-10 16:04:45,123 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:45,124 - INFO - 
+2026-03-10 16:04:45,124 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:45,124 - INFO - 
+2026-03-10 16:04:45,124 - INFO - Received: train message e73bdff0-fb59-4925-996f-fe2bff9ac702
+2026-03-10 16:04:45,124 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:45,126 - INFO - Received: train message 30e099e7-6219-490b-905e-220cde352581
+2026-03-10 16:04:47,193 - INFO - Local training completed
+2026-03-10 16:04:47,193 - INFO - Local training completed
+2026-03-10 16:04:47,217 - INFO - hospital_a finished local training
+2026-03-10 16:04:47,219 - INFO - Sent reply
+2026-03-10 16:04:47,219 - INFO - Sent reply
+2026-03-10 16:04:47,221 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:04:47,221 - INFO - Round 1 aggregation started
+2026-03-10 16:04:47,223 - WARNING - No fit_metrics_aggregation_fn provided
+2026-03-10 16:04:47,223 - INFO - Aggregation completed
+2026-03-10 16:04:47,223 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,226 - INFO - 
+2026-03-10 16:04:47,227 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,227 - INFO - Received: evaluate message 091a8e49-6acc-4d44-8b80-ca1c34dce3e3
+2026-03-10 16:04:47,227 - INFO - 
+2026-03-10 16:04:47,227 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,227 - INFO - Received: evaluate message 492ff436-cb22-4d4b-bf87-c19c972a1ab5
+2026-03-10 16:04:47,246 - INFO - Sent reply
+2026-03-10 16:04:47,246 - INFO - Sent reply
+2026-03-10 16:04:47,247 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:04:47,248 - WARNING - No evaluate_metrics_aggregation_fn provided
+2026-03-10 16:04:47,248 - INFO - 
+2026-03-10 16:04:47,248 - INFO - [ROUND 2]
+2026-03-10 16:04:47,248 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,250 - INFO - 
+2026-03-10 16:04:47,250 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,250 - INFO - 
+2026-03-10 16:04:47,250 - INFO - Received: train message 4df57958-2374-458d-ab48-17ad38eee1fd
+2026-03-10 16:04:47,250 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,250 - INFO - Received: train message 37d009bb-f478-4e79-a11b-9f3cb9e1a6cf
+2026-03-10 16:04:47,270 - INFO - Local training completed
+2026-03-10 16:04:47,272 - INFO - hospital_b finished local training
+2026-03-10 16:04:47,274 - INFO - Sent reply
+2026-03-10 16:04:47,281 - INFO - Local training completed
+2026-03-10 16:04:47,283 - INFO - hospital_a finished local training
+2026-03-10 16:04:47,284 - INFO - Sent reply
+2026-03-10 16:04:47,285 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:04:47,286 - INFO - Round 2 aggregation started
+2026-03-10 16:04:47,289 - INFO - Aggregation completed
+2026-03-10 16:04:47,289 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,292 - INFO - 
+2026-03-10 16:04:47,293 - INFO - 
+2026-03-10 16:04:47,293 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,293 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,293 - INFO - Received: evaluate message efc27f73-1929-4cfe-b7cd-b66654d5f6a6
+2026-03-10 16:04:47,293 - INFO - Received: evaluate message 9351a051-fa04-4b82-82ed-ebd545be2ee9
+2026-03-10 16:04:47,302 - INFO - Sent reply
+2026-03-10 16:04:47,302 - INFO - Sent reply
+2026-03-10 16:04:47,302 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:04:47,304 - INFO - 
+2026-03-10 16:04:47,304 - INFO - [ROUND 3]
+2026-03-10 16:04:47,304 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,305 - INFO - 
+2026-03-10 16:04:47,305 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,305 - INFO - 
+2026-03-10 16:04:47,305 - INFO - Received: train message c6424a97-7669-4df9-af3b-b5b383e6f029
+2026-03-10 16:04:47,306 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,306 - INFO - Received: train message b557f410-7f75-448e-b6af-0c37281a2e2c
+2026-03-10 16:04:47,325 - INFO - Local training completed
+2026-03-10 16:04:47,325 - INFO - Local training completed
+2026-03-10 16:04:47,326 - INFO - hospital_b finished local training
+2026-03-10 16:04:47,326 - INFO - hospital_a finished local training
+2026-03-10 16:04:47,327 - INFO - Sent reply
+2026-03-10 16:04:47,327 - INFO - Sent reply
+2026-03-10 16:04:47,329 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:04:47,329 - INFO - Round 3 aggregation started
+2026-03-10 16:04:47,331 - INFO - Aggregation completed
+2026-03-10 16:04:47,331 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,332 - INFO - 
+2026-03-10 16:04:47,333 - INFO - 
+2026-03-10 16:04:47,333 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,333 - INFO - [RUN 0, ROUND ]
+e message e812ebfc-a3c9-4d10-b889-f95e9eeeceb4
+2026-03-10 16:04:47,334 - INFO - Received: evaluate message 3213dddd-865c-4590-92f4-eeb18363ffa4
+2026-03-10 16:04:47,341 - INFO - Sent reply
+2026-03-10 16:04:47,341 - INFO - Sent reply
+2026-03-10 16:04:47,341 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:04:47,344 - INFO - 
+2026-03-10 16:04:47,344 - INFO - [ROUND 4]
+2026-03-10 16:04:47,344 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,346 - INFO - 
+2026-03-10 16:04:47,346 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,346 - INFO - 
+2026-03-10 16:04:47,346 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,346 - INFO - Received: train message 3846b68f-621b-49ca-b7ab-08f36efd1c77
+2026-03-10 16:04:47,346 - INFO - Received: train message 848823d6-9e9b-4ebd-a39f-88b8d7fee9e5
+2026-03-10 16:04:47,364 - INFO - Local training completed
+2026-03-10 16:04:47,365 - INFO - Local training completed
+2026-03-10 16:04:47,367 - INFO - hospital_b finished local training
+2026-03-10 16:04:47,367 - INFO - hospital_a finished local training
+2026-03-10 16:04:47,367 - INFO - Sent reply
+2026-03-10 16:04:47,368 - INFO - Sent reply
+2026-03-10 16:04:47,369 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:04:47,370 - INFO - Round 4 aggregation started
+2026-03-10 16:04:47,371 - INFO - Aggregation completed
+2026-03-10 16:04:47,371 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,373 - INFO - 
+2026-03-10 16:04:47,373 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,373 - INFO - 
+2026-03-10 16:04:47,373 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,373 - INFO - Received: evaluate message 69c4ee6b-7568-4c85-97ea-dfbdf1d9ae66
+2026-03-10 16:04:47,373 - INFO - Received: evaluate message c766850f-904b-42b7-9920-1ac5c842cebc
+2026-03-10 16:04:47,381 - INFO - Sent reply
+2026-03-10 16:04:47,382 - INFO - Sent reply
+2026-03-10 16:04:47,383 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:04:47,384 - INFO - 
+2026-03-10 16:04:47,384 - INFO - [ROUND 5]
+2026-03-10 16:04:47,384 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,386 - INFO - 
+2026-03-10 16:04:47,386 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,386 - INFO - 
+2026-03-10 16:04:47,386 - INFO - [RUN 0, ROUND ]
+essage c293799c-774d-4377-b05e-e5b4e26734a3
+2026-03-10 16:04:47,386 - INFO - Received: train message 11aa3445-6ea4-4e0c-8217-3c95bca45449
+2026-03-10 16:04:47,404 - INFO - Local training completed
+2026-03-10 16:04:47,406 - INFO - hospital_a finished local training
+2026-03-10 16:04:47,406 - INFO - Local training completed
+2026-03-10 16:04:47,407 - INFO - Sent reply
+2026-03-10 16:04:47,408 - INFO - hospital_b finished local training
+2026-03-10 16:04:47,409 - INFO - Sent reply
+2026-03-10 16:04:47,409 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:04:47,410 - INFO - Round 5 aggregation started
+2026-03-10 16:04:47,412 - INFO - Aggregation completed
+2026-03-10 16:04:47,412 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:04:47,413 - INFO - 
+2026-03-10 16:04:47,414 - INFO - 
+2026-03-10 16:04:47,414 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,414 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,414 - INFO - Received: evaluate message ada0802c-e0d5-4352-ac63-90fb26c8559c
+2026-03-10 16:04:47,414 - INFO - Received: evaluate message 52bed72a-70d5-464b-9aa2-048b73c5e912
+2026-03-10 16:04:47,423 - INFO - Sent reply
+2026-03-10 16:04:47,424 - INFO - Sent reply
+2026-03-10 16:04:47,424 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:04:47,424 - INFO - 
+2026-03-10 16:04:47,424 - INFO - [SUMMARY]
+2026-03-10 16:04:47,424 - INFO - Run finished 5 rounds in 15.62s
+2026-03-10 16:04:47,424 - INFO - History (loss, distributed):
+2026-03-10 16:04:47,426 - INFO - 	('\tround 1: 8.545405430740185\n'
+2026-03-10 16:04:47,426 - INFO - 	 '\tround 2: 4.920437646715828\n'
+2026-03-10 16:04:47,426 - INFO - 	 '\tround 3: 1.5688313165407501\n'
+2026-03-10 16:04:47,426 - INFO - 	 '\tround 4: 0.913514915477024\n'
+2026-03-10 16:04:47,426 - INFO - 	 '\tround 5: 0.741414060753383\n')
+2026-03-10 16:04:47,428 - INFO - 
+2026-03-10 16:04:47,429 - INFO - 
+2026-03-10 16:04:47,429 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,429 - INFO - 
+ceived: reconnect message c4800283-0d8a-4137-b3fd-815dea65801c
+2026-03-10 16:04:47,430 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:04:47,430 - INFO - Received: reconnect message 04216be8-297a-4849-b5c8-9d6d5bbcb649
+2026-03-10 16:04:47,440 - DEBUG - gRPC channel closed
+2026-03-10 16:04:47,440 - DEBUG - gRPC channel closed
+2026-03-10 16:04:47,440 - INFO - Disconnect and shut down
+2026-03-10 16:04:47,440 - INFO - Disconnect and shut down
+2026-03-10 16:28:09,081 - INFO - Starting Federated Server
+2026-03-10 16:28:09,081 - INFO - Starting Flower server, config: num_rounds=5, no round_timeout
+2026-03-10 16:28:09,122 - INFO - Flower ECE: gRPC server running (5 rounds), SSL is disabled
+2026-03-10 16:28:09,122 - INFO - [INIT]
+2026-03-10 16:28:09,122 - INFO - Requesting initial parameters from one random client
+2026-03-10 16:28:30,196 - INFO - hospital_a joined training
+2026-03-10 16:28:30,196 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 16:28:30,208 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 16:28:30,211 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 16:28:30,222 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 16:28:30,223 - DEBUG - ChannelConnectivity.READY
+2026-03-10 16:28:30,224 - INFO - 
+2026-03-10 16:28:30,224 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:30,225 - INFO - Received: get_parameters message 42011015-d48d-445b-b23a-fa2d5d54c23f
+2026-03-10 16:28:30,228 - INFO - Sent reply
+2026-03-10 16:28:30,228 - INFO - Received initial parameters from one random client
+2026-03-10 16:28:30,228 - INFO - Evaluating initial global parameters
+2026-03-10 16:28:30,228 - INFO - 
+2026-03-10 16:28:30,229 - INFO - [ROUND 1]
+2026-03-10 16:28:44,084 - INFO - hospital_b joined training
+2026-03-10 16:28:44,084 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 16:28:44,091 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 16:28:44,092 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 16:28:44,092 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 16:28:44,093 - DEBUG - ChannelConnectivity.READY
+2026-03-10 16:28:44,093 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:44,095 - INFO - 
+2026-03-10 16:28:44,095 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:44,095 - INFO - Received: train message 4ef590e4-6783-414c-8a6e-22f270a5bbb3
+2026-03-10 16:28:44,095 - INFO - 
+2026-03-10 16:28:44,096 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:44,096 - INFO - Received: train message 9ce24f48-8ee6-4bdc-b2b1-479b931095e0
+2026-03-10 16:28:46,326 - INFO - Local training completed
+2026-03-10 16:28:46,327 - INFO - Local training completed
+2026-03-10 16:28:46,339 - INFO - hospital_b finished local training
+2026-03-10 16:28:46,340 - INFO - Sent reply
+2026-03-10 16:28:46,340 - INFO - Sent reply
+2026-03-10 16:28:46,341 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:28:46,342 - INFO - Round 1 aggregation started
+2026-03-10 16:28:46,345 - WARNING - No fit_metrics_aggregation_fn provided
+2026-03-10 16:28:46,345 - INFO - Aggregation completed
+2026-03-10 16:28:46,345 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,347 - INFO - 
+2026-03-10 16:28:46,347 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,348 - INFO - Received: evaluate message 4cd8801e-ad5d-4cad-9721-71537a3abae9
+2026-03-10 16:28:46,348 - INFO - 
+2026-03-10 16:28:46,348 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,348 - INFO - Received: evaluate message b8e88ea2-8c6c-42f4-8634-848d36bfd21b
+2026-03-10 16:28:46,363 - INFO - Sent reply
+2026-03-10 16:28:46,364 - INFO - Sent reply
+2026-03-10 16:28:46,365 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:28:46,365 - WARNING - No evaluate_metrics_aggregation_fn provided
+2026-03-10 16:28:46,366 - INFO - 
+2026-03-10 16:28:46,366 - INFO - [ROUND 2]
+2026-03-10 16:28:46,366 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,368 - INFO - 
+2026-03-10 16:28:46,368 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,368 - INFO - 
+2026-03-10 16:28:46,368 - INFO - Received: train message 15723877-5776-4402-afff-a1e9ba73b59a
+2026-03-10 16:28:46,368 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,368 - INFO - Received: train message 014e0696-86e6-4925-bc5f-3b48e84e8c33
+2026-03-10 16:28:46,386 - INFO - Local training completed
+2026-03-10 16:28:46,388 - INFO - hospital_b finished local training
+2026-03-10 16:28:46,389 - INFO - Sent reply
+2026-03-10 16:28:46,390 - INFO - Local training completed
+2026-03-10 16:28:46,392 - INFO - hospital_a finished local training
+2026-03-10 16:28:46,393 - INFO - Sent reply
+2026-03-10 16:28:46,394 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:28:46,394 - INFO - Round 2 aggregation started
+2026-03-10 16:28:46,396 - INFO - Aggregation completed
+2026-03-10 16:28:46,396 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,398 - INFO - 
+2026-03-10 16:28:46,398 - INFO - 
+2026-03-10 16:28:46,398 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,399 - INFO - Received: evaluate message 33833c41-73b9-4f18-bf0d-d6036d6850f6
+2026-03-10 16:28:46,399 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,399 - INFO - Received: evaluate message 4c0e736e-7db9-4fc1-b4b6-5ce58836ef02
+2026-03-10 16:28:46,406 - INFO - Sent reply
+2026-03-10 16:28:46,407 - INFO - Sent reply
+2026-03-10 16:28:46,409 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:28:46,409 - INFO - 
+2026-03-10 16:28:46,409 - INFO - [ROUND 3]
+2026-03-10 16:28:46,409 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,410 - INFO - 
+2026-03-10 16:28:46,411 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,411 - INFO - 
+2026-03-10 16:28:46,411 - INFO - Received: train message ba4033da-9d80-4322-a9d6-70538706bf1d
+2026-03-10 16:28:46,411 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,411 - INFO - Received: train message 0ec200f5-9a20-4845-8a80-c67e0383618f
+2026-03-10 16:28:46,429 - INFO - Local training completed
+2026-03-10 16:28:46,430 - INFO - Local training completed
+2026-03-10 16:28:46,431 - INFO - hospital_b finished local training
+2026-03-10 16:28:46,431 - INFO - hospital_a finished local training
+2026-03-10 16:28:46,432 - INFO - Sent reply
+2026-03-10 16:28:46,432 - INFO - Sent reply
+2026-03-10 16:28:46,434 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:28:46,434 - INFO - Round 3 aggregation started
+2026-03-10 16:28:46,437 - INFO - Aggregation completed
+2026-03-10 16:28:46,437 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,439 - INFO - 
+2026-03-10 16:28:46,439 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,439 - INFO - Received: evaluate message b68e20e8-eac2-4078-9275-195ffa827067
+2026-03-10 16:28:46,440 - INFO - 
+2026-03-10 16:28:46,440 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,440 - INFO - Received: evaluate message a684a315-afab-4307-a20b-cb5bd4f5958d
+2026-03-10 16:28:46,448 - INFO - Sent reply
+2026-03-10 16:28:46,449 - INFO - Sent reply
+2026-03-10 16:28:46,449 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:28:46,450 - INFO - 
+2026-03-10 16:28:46,450 - INFO - [ROUND 4]
+2026-03-10 16:28:46,450 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,452 - INFO - 
+2026-03-10 16:28:46,452 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,452 - INFO - Received: train message a28ba4bc-c262-465c-8182-d1f018cc3d20
+2026-03-10 16:28:46,452 - INFO - 
+2026-03-10 16:28:46,453 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,453 - INFO - Received: train message 92b13cd9-9cb5-4a8b-a6af-71f5ae5073c9
+2026-03-10 16:28:46,472 - INFO - Local training completed
+2026-03-10 16:28:46,474 - INFO - hospital_a finished local training
+2026-03-10 16:28:46,474 - INFO - Local training completed
+2026-03-10 16:28:46,474 - INFO - Sent reply
+2026-03-10 16:28:46,476 - INFO - hospital_b finished local training
+2026-03-10 16:28:46,477 - INFO - Sent reply
+2026-03-10 16:28:46,478 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:28:46,478 - INFO - Round 4 aggregation started
+2026-03-10 16:28:46,480 - INFO - Aggregation completed
+2026-03-10 16:28:46,481 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,482 - INFO - 
+2026-03-10 16:28:46,483 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,483 - INFO - 
+2026-03-10 16:28:46,483 - INFO - Received: evaluate message 6308f7e4-7e46-4354-beb6-aa015aafae71
+2026-03-10 16:28:46,483 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,483 - INFO - Received: evaluate message 64013143-f1c8-4f0d-ba1f-017704a1aeac
+2026-03-10 16:28:46,491 - INFO - Sent reply
+2026-03-10 16:28:46,493 - INFO - Sent reply
+2026-03-10 16:28:46,494 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:28:46,495 - INFO - 
+2026-03-10 16:28:46,495 - INFO - [ROUND 5]
+2026-03-10 16:28:46,495 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,497 - INFO - 
+2026-03-10 16:28:46,497 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,497 - INFO - 
+2026-03-10 16:28:46,497 - INFO - Received: train message 124def09-c114-4d43-a557-208df3d07cb1
+2026-03-10 16:28:46,497 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,497 - INFO - Received: train message 38883136-1932-44b6-a34b-a61345144b12
+2026-03-10 16:28:46,513 - INFO - Local training completed
+2026-03-10 16:28:46,514 - INFO - Local training completed
+2026-03-10 16:28:46,516 - INFO - hospital_b finished local training
+2026-03-10 16:28:46,516 - INFO - Sent reply
+2026-03-10 16:28:46,516 - INFO - Sent reply
+2026-03-10 16:28:46,518 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 16:28:46,518 - INFO - Round 5 aggregation started
+2026-03-10 16:28:46,521 - INFO - Aggregation completed
+2026-03-10 16:28:46,521 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 16:28:46,523 - INFO - 
+2026-03-10 16:28:46,523 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,523 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,523 - INFO - Received: evaluate message dbb5bbea-c7a2-4199-8f79-bec37e1ce1ca
+2026-03-10 16:28:46,525 - INFO - Received: evaluate message baa081c5-7e60-4016-97a7-714156d08edf
+2026-03-10 16:28:46,533 - INFO - Sent reply
+2026-03-10 16:28:46,533 - INFO - Sent reply
+2026-03-10 16:28:46,535 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 16:28:46,535 - INFO - 
+2026-03-10 16:28:46,536 - INFO - [SUMMARY]
+2026-03-10 16:28:46,536 - INFO - Run finished 5 rounds in 16.31s
+2026-03-10 16:28:46,536 - INFO - History (loss, distributed):
+2026-03-10 16:28:46,538 - INFO - 	('\tround 1: 4.453688814398948\n'
+2026-03-10 16:28:46,538 - INFO - 	 '\tround 2: 1.2336457351620278\n'
+2026-03-10 16:28:46,538 - INFO - 	 '\tround 3: 1.0245978939399292\n'
+2026-03-10 16:28:46,538 - INFO - 	 '\tround 4: 1.35197224643793\n'
+2026-03-10 16:28:46,538 - INFO - 	 '\tround 5: 0.7598049587078308\n')
+2026-03-10 16:28:46,538 - INFO - 
+2026-03-10 16:28:46,540 - INFO - 
+2026-03-10 16:28:46,540 - INFO - 
+2026-03-10 16:28:46,540 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,540 - INFO - [RUN 0, ROUND ]
+2026-03-10 16:28:46,540 - INFO - Received: reconnect message 5ba2210d-5cac-4980-b360-90c4c651db92
+2026-03-10 16:28:46,540 - INFO - Received: reconnect message 44b4ee0e-cfb6-410d-b829-bf7c9bb7c1be
+2026-03-10 16:28:46,556 - DEBUG - gRPC channel closed
+2026-03-10 16:28:46,556 - DEBUG - gRPC channel closed
+2026-03-10 16:28:46,556 - INFO - Disconnect and shut down
+2026-03-10 16:28:46,556 - INFO - Disconnect and shut down
+2026-03-10 17:04:47,043 - INFO - Starting Federated Server
+2026-03-10 17:04:47,043 - INFO - Starting Flower server, config: num_rounds=5, no round_timeout
+2026-03-10 17:04:47,058 - INFO - Flower ECE: gRPC server running (5 rounds), SSL is disabled
+2026-03-10 17:04:47,058 - INFO - [INIT]
+2026-03-10 17:04:47,058 - INFO - Requesting initial parameters from one random client
+2026-03-10 17:05:55,497 - INFO - Starting Federated Server
+2026-03-10 17:05:55,498 - INFO - Starting Flower server, config: num_rounds=5, no round_timeout
+2026-03-10 17:05:55,520 - INFO - Flower ECE: gRPC server running (5 rounds), SSL is disabled
+2026-03-10 17:05:55,520 - INFO - [INIT]
+2026-03-10 17:05:55,521 - INFO - Requesting initial parameters from one random client
+2026-03-10 17:06:41,510 - INFO - hospital_a joined training
+2026-03-10 17:06:41,510 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 17:06:41,520 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 17:06:41,521 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 17:06:41,522 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 17:06:41,522 - DEBUG - ChannelConnectivity.READY
+2026-03-10 17:06:41,526 - INFO - 
+2026-03-10 17:06:41,526 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:41,526 - INFO - Received: get_parameters message 9d25fadc-368f-4634-853d-941bb4368daf
+2026-03-10 17:06:41,528 - INFO - Sent reply
+2026-03-10 17:06:41,544 - INFO - Received initial parameters from one random client
+2026-03-10 17:06:41,544 - INFO - Evaluating initial global parameters
+2026-03-10 17:06:41,544 - INFO - 
+2026-03-10 17:06:41,544 - INFO - [ROUND 1]
+2026-03-10 17:06:51,772 - INFO - hospital_a joined training
+2026-03-10 17:06:51,772 - WARNING - DEPRECATED FEATURE: flwr.client.start_numpy_client() is deprecated. 
+	Instead, use `flwr.client.start_client()` by ensuring you first call the `.to_client()` method as shown below: 
+	flwr.client.start_client(
+		server_address='<IP>:<PORT>',
+		client=FlowerClient().to_client(), # <-- where FlowerClient is of type flwr.client.NumPyClient object
+	)
+	Using `start_numpy_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2026-03-10 17:06:51,788 - DEBUG - Opened insecure gRPC connection (no certificates were passed)
+2026-03-10 17:06:51,788 - DEBUG - ChannelConnectivity.IDLE
+2026-03-10 17:06:51,788 - DEBUG - ChannelConnectivity.CONNECTING
+2026-03-10 17:06:51,790 - DEBUG - ChannelConnectivity.READY
+2026-03-10 17:06:51,790 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:51,792 - INFO - 
+2026-03-10 17:06:51,792 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:51,792 - INFO - Received: train message 21e43b52-ec45-4a0d-8ae7-cd673ff3935b
+2026-03-10 17:06:51,793 - INFO - 
+2026-03-10 17:06:51,793 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:51,793 - INFO - Received: train message 36560608-c634-4621-b8cc-c69a659f90b8
+2026-03-10 17:06:53,180 - INFO - Local training completed
+2026-03-10 17:06:53,181 - INFO - Local training completed
+2026-03-10 17:06:53,186 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,186 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,187 - INFO - Sent reply
+2026-03-10 17:06:53,187 - INFO - Sent reply
+2026-03-10 17:06:53,188 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 17:06:53,189 - INFO - Round 1 aggregation started
+2026-03-10 17:06:53,190 - WARNING - No fit_metrics_aggregation_fn provided
+2026-03-10 17:06:53,190 - INFO - Aggregation completed
+2026-03-10 17:06:53,191 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,192 - INFO - 
+2026-03-10 17:06:53,192 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,192 - INFO - Received: evaluate message e804d509-7cb9-4973-b770-04952e9d8fa6
+2026-03-10 17:06:53,193 - INFO - 
+2026-03-10 17:06:53,193 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,193 - INFO - Received: evaluate message f7b0c2bc-fddd-4133-a1e4-80ec75f05445
+2026-03-10 17:06:53,200 - INFO - Sent reply
+2026-03-10 17:06:53,202 - INFO - Sent reply
+2026-03-10 17:06:53,203 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 17:06:53,204 - WARNING - No evaluate_metrics_aggregation_fn provided
+2026-03-10 17:06:53,204 - INFO - 
+2026-03-10 17:06:53,204 - INFO - [ROUND 2]
+2026-03-10 17:06:53,204 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,206 - INFO - 
+2026-03-10 17:06:53,206 - INFO - 
+2026-03-10 17:06:53,206 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,206 - INFO - [RUN 0, ROUND ]
+essage a96baf5f-0b6d-4c12-a40e-d303b63a03f3
+2026-03-10 17:06:53,207 - INFO - Received: train message 83b95076-e95c-48e9-8687-da5143e4fbe5
+2026-03-10 17:06:53,223 - INFO - Local training completed
+2026-03-10 17:06:53,223 - INFO - Local training completed
+2026-03-10 17:06:53,229 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,229 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,229 - INFO - Sent reply
+2026-03-10 17:06:53,229 - INFO - Sent reply
+2026-03-10 17:06:53,231 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 17:06:53,232 - INFO - Round 2 aggregation started
+2026-03-10 17:06:53,234 - INFO - Aggregation completed
+2026-03-10 17:06:53,234 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,236 - INFO - 
+2026-03-10 17:06:53,236 - INFO - 
+2026-03-10 17:06:53,236 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,236 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,236 - INFO - Received: evaluate message c8bc722d-3457-4de4-b981-b6303b5328cd
+2026-03-10 17:06:53,237 - INFO - Received: evaluate message 9b57a304-5a1d-4186-8601-9a536dc2e00e
+2026-03-10 17:06:53,245 - INFO - Sent reply
+2026-03-10 17:06:53,245 - INFO - Sent reply
+2026-03-10 17:06:53,246 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 17:06:53,247 - INFO - 
+2026-03-10 17:06:53,247 - INFO - [ROUND 3]
+2026-03-10 17:06:53,247 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,249 - INFO - 
+2026-03-10 17:06:53,249 - INFO - 
+2026-03-10 17:06:53,249 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,249 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,250 - INFO - Received: train message 6ee2351c-ee6c-4d88-8419-e3579719e61c
+2026-03-10 17:06:53,250 - INFO - Received: train message 7f3e4042-b4b8-4bb3-aeaf-c1ee5701048c
+2026-03-10 17:06:53,266 - INFO - Local training completed
+2026-03-10 17:06:53,268 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,269 - INFO - Local training completed
+2026-03-10 17:06:53,269 - INFO - Sent reply
+2026-03-10 17:06:53,271 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,271 - INFO - Sent reply
+2026-03-10 17:06:53,273 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 17:06:53,273 - INFO - Round 3 aggregation started
+2026-03-10 17:06:53,275 - INFO - Aggregation completed
+2026-03-10 17:06:53,275 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,277 - INFO - 
+2026-03-10 17:06:53,277 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,277 - INFO - 
+2026-03-10 17:06:53,277 - INFO - Received: evaluate message 3693c00f-196c-4770-91bb-d946abf9427b
+2026-03-10 17:06:53,277 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,278 - INFO - Received: evaluate message ed2b77df-e6cf-4870-8e4a-ca3d40d8514d
+2026-03-10 17:06:53,286 - INFO - Sent reply
+2026-03-10 17:06:53,288 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 17:06:53,288 - INFO - 
+2026-03-10 17:06:53,288 - INFO - [ROUND 4]
+2026-03-10 17:06:53,289 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,290 - INFO - 
+2026-03-10 17:06:53,290 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,290 - INFO - 
+2026-03-10 17:06:53,290 - INFO - Received: train message d371a626-9ca1-4cac-94ef-e14c8cb7a2d4
+2026-03-10 17:06:53,290 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,291 - INFO - Received: train message eb2be64f-6ca4-49f9-89c8-05b16ef9bad3
+2026-03-10 17:06:53,307 - INFO - Local training completed
+2026-03-10 17:06:53,309 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,309 - INFO - Sent reply
+2026-03-10 17:06:53,309 - INFO - Sent reply
+2026-03-10 17:06:53,311 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 17:06:53,311 - INFO - Round 4 aggregation started
+2026-03-10 17:06:53,313 - INFO - Aggregation completed
+2026-03-10 17:06:53,314 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,315 - INFO - 
+2026-03-10 17:06:53,315 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,316 - INFO - Received: evaluate message 8ec8ec3b-13ac-45a9-a048-130744545361
+2026-03-10 17:06:53,316 - INFO - 
+2026-03-10 17:06:53,316 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,316 - INFO - Received: evaluate message 2e514ce0-1fbb-41cd-9243-4ef76b059115
+2026-03-10 17:06:53,324 - INFO - Sent reply
+2026-03-10 17:06:53,324 - INFO - Sent reply
+2026-03-10 17:06:53,325 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 17:06:53,326 - INFO - 
+2026-03-10 17:06:53,326 - INFO - [ROUND 5]
+2026-03-10 17:06:53,326 - INFO - configure_fit: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,327 - INFO - 
+2026-03-10 17:06:53,328 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,328 - INFO - 
+2026-03-10 17:06:53,328 - INFO - Received: train message 9212de35-bc2d-4846-bdf0-180a8d76e49c
+2026-03-10 17:06:53,328 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,328 - INFO - Received: train message b6305632-851e-491b-a9bc-dfca49e066ab
+2026-03-10 17:06:53,346 - INFO - Local training completed
+2026-03-10 17:06:53,347 - INFO - Local training completed
+2026-03-10 17:06:53,348 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,349 - INFO - hospital_a finished local training
+2026-03-10 17:06:53,349 - INFO - Sent reply
+2026-03-10 17:06:53,350 - INFO - Sent reply
+2026-03-10 17:06:53,351 - INFO - aggregate_fit: received 2 results and 0 failures
+2026-03-10 17:06:53,351 - INFO - Round 5 aggregation started
+2026-03-10 17:06:53,353 - INFO - Aggregation completed
+2026-03-10 17:06:53,353 - INFO - configure_evaluate: strategy sampled 2 clients (out of 2)
+2026-03-10 17:06:53,355 - INFO - 
+2026-03-10 17:06:53,355 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,355 - INFO - 
+2026-03-10 17:06:53,355 - INFO - Received: evaluate message 5845f5f1-3100-4cb4-9535-b773b2daa913
+2026-03-10 17:06:53,355 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,355 - INFO - Received: evaluate message dc6ba1d7-4335-44d5-9ffd-bde50d513f2b
+2026-03-10 17:06:53,363 - INFO - Sent reply
+2026-03-10 17:06:53,363 - INFO - Sent reply
+2026-03-10 17:06:53,364 - INFO - aggregate_evaluate: received 2 results and 0 failures
+2026-03-10 17:06:53,365 - INFO - 
+2026-03-10 17:06:53,365 - INFO - [SUMMARY]
+2026-03-10 17:06:53,365 - INFO - Run finished 5 rounds in 11.82s
+2026-03-10 17:06:53,365 - INFO - History (loss, distributed):
+2026-03-10 17:06:53,366 - INFO - 	('\tround 1: 4.576589584350586\n'
+2026-03-10 17:06:53,366 - INFO - 	 '\tround 2: 1.6256152987480164\n'
+2026-03-10 17:06:53,366 - INFO - 	 '\tround 3: 0.4084043949842453\n'
+2026-03-10 17:06:53,366 - INFO - 	 '\tround 4: 0.3079054057598114\n'
+2026-03-10 17:06:53,367 - INFO - 	 '\tround 5: 0.3613912761211395\n')
+2026-03-10 17:06:53,367 - INFO - 
+2026-03-10 17:06:53,368 - INFO - 
+2026-03-10 17:06:53,369 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,369 - INFO - 
+2026-03-10 17:06:53,369 - INFO - Received: reconnect message 2d9b58ed-fc1b-49cb-9d93-2052dcb64f8a
+2026-03-10 17:06:53,369 - INFO - [RUN 0, ROUND ]
+2026-03-10 17:06:53,369 - INFO - Received: reconnect message a9a09826-1b37-41c5-92f1-cb6cb17bb4bb
+2026-03-10 17:06:53,371 - DEBUG - gRPC channel closed
+2026-03-10 17:06:53,372 - INFO - Disconnect and shut down
+2026-03-10 17:06:53,372 - INFO - Disconnect and shut down

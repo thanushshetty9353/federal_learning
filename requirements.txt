@@ -5,3 +5,9 @@ numpy
 pandas
 scikit-learn
 opacus
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+python-jose
+passlib
