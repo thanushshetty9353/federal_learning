@@ -5,9 +5,8 @@ from backend.api import org_routes
 from backend.api import dataset_routes
 from backend.api import training_routes
 from backend.api import audit_routes
-
-# New Admin APIs
 from backend.api import admin_routes
+from backend.api import auth_routes
 
 # Database initialization
 from backend.database.db import engine
@@ -34,9 +33,8 @@ app.include_router(org_routes.router)
 app.include_router(dataset_routes.router)
 app.include_router(training_routes.router)
 app.include_router(audit_routes.router)
-
-# Admin APIs
 app.include_router(admin_routes.router)
+app.include_router(auth_routes.router)
 
 # --------------------------------------------------
 # Root endpoint

@@ -1,9 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/audit")
+from backend.auth.rbac import require_role
+
+
+router = APIRouter(prefix="/audit", tags=["Audit"])
+
 
 @router.get("/logs")
-def get_logs():
+def get_logs(user=Depends(require_role("AUDITOR"))):
 
     with open("logs/training.log") as f:
         logs = f.readlines()

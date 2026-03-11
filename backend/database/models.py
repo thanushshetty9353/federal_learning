@@ -17,12 +17,14 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
-    role = Column(String, nullable=False)
-    # Roles:
-    # ADMIN
-    # RESEARCHER
-    # ORG_NODE
-    # AUDITOR
+    # role user requested
+    requested_role = Column(String)
+
+    # role assigned by admin
+    role = Column(String)
+
+    # approval status
+    status = Column(String, default="PENDING")
 
     organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=True)
 
@@ -44,9 +46,6 @@ class Organization(Base):
     certificate = Column(String)
 
     status = Column(String, default="PENDING")
-    # PENDING
-    # APPROVED
-    # REJECTED
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -55,7 +54,7 @@ class Organization(Base):
 
 
 # -----------------------------
-# Datasets (Metadata Only)
+# Datasets
 # -----------------------------
 class Dataset(Base):
 
@@ -86,9 +85,6 @@ class TrainingJob(Base):
     privacy_budget = Column(String)
 
     status = Column(String, default="CREATED")
-    # CREATED
-    # RUNNING
-    # COMPLETED
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -106,9 +102,6 @@ class NodeParticipation(Base):
     org_id = Column(Integer, ForeignKey("organizations.id"))
 
     status = Column(String)
-    # WAITING
-    # TRAINING
-    # COMPLETED
 
 
 # -----------------------------
@@ -136,9 +129,7 @@ class ModelRegistry(Base):
     id = Column(Integer, primary_key=True)
 
     model_name = Column(String)
-
     file_path = Column(String)
-
     accuracy = Column(String)
 
     created_at = Column(DateTime, default=datetime.utcnow)

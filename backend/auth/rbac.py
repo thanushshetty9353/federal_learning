@@ -1,10 +1,23 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 
-def require_role(role):
+from backend.auth.jwt_auth import get_current_user
 
-    def wrapper(user):
 
-        if user.role != role:
-            raise HTTPException(status_code=403, detail="Access denied")
+# -----------------------------
+# Role Based Access Control
+# -----------------------------
+def require_role(role: str):
 
-    return wrapper
+    def role_checker(user: dict = Depends(get_current_user)):
+
+        user_role = user.get("role")
+
+        if user_role != role:
+            raise HTTPException(
+                status_code=403,
+                detail=f"Access denied. Required role: {role}"
+            )
+
+        return user
+
+    return role_checker
