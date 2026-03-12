@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import declarative_base
 from datetime import datetime
 
 Base = declarative_base()
@@ -26,35 +26,14 @@ class User(Base):
     # approval status
     status = Column(String, default="PENDING")
 
-    organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=True)
+    # hospital name stored here
+    organization_name = Column(String)
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    organization = relationship("Organization", back_populates="users")
-
 
 # -----------------------------
-# Organizations (Hospitals)
-# -----------------------------
-class Organization(Base):
-
-    __tablename__ = "organizations"
-
-    id = Column(Integer, primary_key=True)
-
-    name = Column(String, nullable=False)
-    certificate = Column(String)
-
-    status = Column(String, default="PENDING")
-
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    users = relationship("User", back_populates="organization")
-    datasets = relationship("Dataset", back_populates="organization")
-
-
-# -----------------------------
-# Datasets
+# Datasets (metadata only)
 # -----------------------------
 class Dataset(Base):
 
@@ -62,12 +41,11 @@ class Dataset(Base):
 
     id = Column(Integer, primary_key=True)
 
-    org_id = Column(Integer, ForeignKey("organizations.id"))
+    user_id = Column(Integer)
+
     schema_metadata = Column(String)
 
     sensitivity_level = Column(String, default="HIGH")
-
-    organization = relationship("Organization", back_populates="datasets")
 
 
 # -----------------------------
@@ -98,8 +76,8 @@ class NodeParticipation(Base):
 
     id = Column(Integer, primary_key=True)
 
-    job_id = Column(Integer, ForeignKey("training_jobs.id"))
-    org_id = Column(Integer, ForeignKey("organizations.id"))
+    job_id = Column(Integer)
+    user_id = Column(Integer)
 
     status = Column(String)
 

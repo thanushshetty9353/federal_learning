@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database.db import SessionLocal
-from backend.database.models import Organization, TrainingJob, ModelRegistry, User
+from backend.database.models import TrainingJob, ModelRegistry, User
 
 from backend.auth.rbac import require_role
 
@@ -74,70 +74,6 @@ def reject_user(
     db.commit()
 
     return {"message": "User rejected"}
-
-
-# -----------------------------
-# Pending Organizations
-# -----------------------------
-@router.get("/organizations/pending")
-def pending_organizations(
-    db: Session = Depends(get_db),
-    user=Depends(require_role("ADMIN"))
-):
-
-    orgs = db.query(Organization).filter(
-        Organization.status == "PENDING"
-    ).all()
-
-    return {"pending_organizations": orgs}
-
-
-# -----------------------------
-# Approve Organization
-# -----------------------------
-@router.post("/organizations/{org_id}/approve")
-def approve_organization(
-    org_id: int,
-    db: Session = Depends(get_db),
-    user=Depends(require_role("ADMIN"))
-):
-
-    org = db.query(Organization).filter(
-        Organization.id == org_id
-    ).first()
-
-    if not org:
-        raise HTTPException(status_code=404, detail="Organization not found")
-
-    org.status = "APPROVED"
-
-    db.commit()
-
-    return {"message": "Organization approved", "organization_id": org_id}
-
-
-# -----------------------------
-# Reject Organization
-# -----------------------------
-@router.post("/organizations/{org_id}/reject")
-def reject_organization(
-    org_id: int,
-    db: Session = Depends(get_db),
-    user=Depends(require_role("ADMIN"))
-):
-
-    org = db.query(Organization).filter(
-        Organization.id == org_id
-    ).first()
-
-    if not org:
-        raise HTTPException(status_code=404, detail="Organization not found")
-
-    org.status = "REJECTED"
-
-    db.commit()
-
-    return {"message": "Organization rejected", "organization_id": org_id}
 
 
 # -----------------------------

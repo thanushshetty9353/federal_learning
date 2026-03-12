@@ -20,10 +20,16 @@ def get_db():
 
 
 # -------------------------
-# Register User
+# Register User (Hospital node)
 # -------------------------
 @router.post("/register")
-def register_user(email: str, password: str, requested_role: str, db: Session = Depends(get_db)):
+def register_user(
+    email: str,
+    password: str,
+    requested_role: str,
+    organization_name: str,
+    db: Session = Depends(get_db)
+):
 
     if requested_role == "ADMIN":
         raise HTTPException(status_code=403, detail="Cannot request ADMIN role")
@@ -39,6 +45,7 @@ def register_user(email: str, password: str, requested_role: str, db: Session = 
         email=email,
         password=hashed,
         requested_role=requested_role,
+        organization_name=organization_name,
         role=None,
         status="PENDING"
     )
@@ -46,7 +53,10 @@ def register_user(email: str, password: str, requested_role: str, db: Session = 
     db.add(user)
     db.commit()
 
-    return {"message": "Registration submitted for admin approval"}
+    return {
+        "message": "Hospital registration submitted for admin approval",
+        "organization": organization_name
+    }
 
 
 # -------------------------
@@ -74,5 +84,6 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)):
     return {
         "access_token": token,
         "token_type": "bearer",
-        "role": user.role
+        "role": user.role,
+        "organization": user.organization_name
     }
