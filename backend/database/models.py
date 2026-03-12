@@ -34,11 +34,13 @@ class Dataset(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    user_id = Column(Integer)
+    dataset_name = Column(String, nullable=False)
 
-    schema_metadata = Column(String)
+    organization = Column(String, nullable=False)
 
     sensitivity_level = Column(String, default="HIGH")
+
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 
 # -----------------------------

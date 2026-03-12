@@ -7,7 +7,6 @@ from backend.api import admin_routes
 from backend.api import auth_routes
 from backend.api import monitoring_routes
 from backend.api import participation_routes
-
 from backend.database.db import engine
 from backend.database.models import Base
 
@@ -38,6 +37,7 @@ app.include_router(admin_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(monitoring_routes.router)
 app.include_router(participation_routes.router)
+
 
 
 # --------------------------------------------------

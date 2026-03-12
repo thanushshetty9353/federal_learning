@@ -3,20 +3,23 @@ from backend.database.models import Dataset
 from utils.logger import logger
 
 
-def register_dataset(user_id, metadata, sensitivity):
+def register_dataset(dataset_name, organization, sensitivity="HIGH"):
 
     db = SessionLocal()
 
     dataset = Dataset(
-        user_id=user_id,
-        schema_metadata=metadata,
+        dataset_name=dataset_name,
+        organization=organization,
         sensitivity_level=sensitivity
     )
 
     db.add(dataset)
     db.commit()
+    db.refresh(dataset)
 
-    logger.info(f"Dataset registered for user {user_id}")
+    logger.info(
+        f"Dataset '{dataset_name}' registered for organization '{organization}'"
+    )
 
     return dataset
 

@@ -2,6 +2,7 @@ import flwr as fl
 import torch
 import numpy as np
 import requests
+import os
 
 from fl_core.model.model import Net
 from fl_core.dataset.dataset_loader import load_dataset
@@ -16,17 +17,21 @@ from utils.logger import logger
 
 class HospitalClient(fl.client.NumPyClient):
 
-    def __init__(self, hospital):
+    def __init__(self, hospital, job_id):
 
         self.hospital = hospital
+        self.job_id = job_id
+
         self.model = Net()
-        self.trainloader = load_dataset(hospital)
 
-        logger.info(f"{hospital} joined training")
+        # Load dataset dynamically
+        self.trainloader = load_dataset(hospital, job_id)
 
-        # -------------------------------------------------
-        # Register hospital node with backend
-        # -------------------------------------------------
+        logger.info(
+            f"{hospital} joined training for job {job_id}"
+        )
+
+        # Register hospital node
         try:
             requests.post(
                 "http://localhost:8000/nodes/register",
@@ -39,7 +44,7 @@ class HospitalClient(fl.client.NumPyClient):
             logger.warning("Could not register node with backend")
 
     # -------------------------------------------------
-    # Send model parameters to server
+    # Send parameters to server
     # -------------------------------------------------
     def get_parameters(self, config):
 
@@ -48,17 +53,19 @@ class HospitalClient(fl.client.NumPyClient):
             for _, val in self.model.state_dict().items()
         ]
 
-        # Secure aggregation masking
         masked_weights, self.mask = mask_weights(weights)
 
         return masked_weights
 
     # -------------------------------------------------
-    # Receive parameters from server
+    # Receive parameters
     # -------------------------------------------------
     def set_parameters(self, parameters):
 
-        params_dict = zip(self.model.state_dict().keys(), parameters)
+        params_dict = zip(
+            self.model.state_dict().keys(),
+            parameters
+        )
 
         state_dict = {
             k: torch.tensor(v)
@@ -68,7 +75,7 @@ class HospitalClient(fl.client.NumPyClient):
         self.model.load_state_dict(state_dict, strict=True)
 
     # -------------------------------------------------
-    # Local training
+    # Local Training
     # -------------------------------------------------
     def fit(self, parameters, config):
 
@@ -79,17 +86,30 @@ class HospitalClient(fl.client.NumPyClient):
             lr=0.001
         )
 
-        # Apply Differential Privacy
         self.model, optimizer, self.trainloader = apply_differential_privacy(
             self.model,
             optimizer,
             self.trainloader
         )
 
-        # Local training
         self.model = train(self.model, self.trainloader)
 
-        logger.info(f"{self.hospital} finished local training")
+        logger.info(
+            f"{self.hospital} finished local training"
+        )
+
+        # delete dataset after training
+        dataset_path = f"datasets/temp/{self.hospital}_{self.job_id}.csv"
+
+        try:
+            if os.path.exists(dataset_path):
+                os.remove(dataset_path)
+
+                logger.info(
+                    f"{self.hospital} dataset deleted"
+                )
+        except Exception as e:
+            logger.warning(f"Dataset deletion error: {e}")
 
         return (
             self.get_parameters({}),
@@ -115,7 +135,6 @@ class HospitalClient(fl.client.NumPyClient):
 
         round_num = config.get("server_round", 0)
 
-        # Log training metrics
         log_round(round_num, accuracy, loss)
 
         return (

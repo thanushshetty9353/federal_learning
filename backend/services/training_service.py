@@ -1,24 +1,32 @@
 import subprocess
+from backend.database.db import SessionLocal
+from backend.database.models import TrainingJob
 from utils.logger import logger
 
 
-def start_training(job):
+def create_training_job(model, rounds):
 
-    rounds = job.rounds
-    model = job.model
+    db = SessionLocal()
 
-    logger.info(
-        f"Starting federated training for model {model} "
-        f"with {rounds} rounds"
+    job = TrainingJob(
+        model_type=model,
+        rounds=rounds,
+        status="CREATED"
     )
 
-    # Start Flower server
-    subprocess.Popen(
-        ["python", "scripts/start_server.py"]
-    )
+    db.add(job)
+    db.commit()
+    db.refresh(job)
 
-    return {
-        "message": "Federated training started",
-        "model": model,
-        "rounds": rounds
-    }
+    logger.info(f"Training job {job.id} created")
+
+    # Start federated server automatically
+    try:
+        subprocess.Popen(
+            ["python", "scripts/start_server.py"]
+        )
+        logger.info("Federated server started")
+    except Exception as e:
+        logger.error(f"Could not start server: {e}")
+
+    return job
