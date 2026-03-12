@@ -45,9 +45,9 @@ def create_training(
     }
 
 
-# ------------------------------------------------
+# -------------------------------------
 # Organizations view available jobs
-# ------------------------------------------------
+# --------------------------------------
 @router.get("/list")
 def list_training_jobs(
     user=Depends(require_role("ORG_NODE"))
