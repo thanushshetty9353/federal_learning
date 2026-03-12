@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from backend.schemas.training_schema import TrainingJobCreate
 from backend.auth.rbac import require_role
 from backend.database.db import SessionLocal
-from backend.database.models import TrainingJob, TrainingJobParticipant
+from backend.database.models import TrainingJob, TrainingJobParticipant, User
 from utils.logger import logger
 
 
@@ -35,7 +35,7 @@ def create_training(
     db.refresh(new_job)
 
     logger.info(
-        f"Admin {user.email} created training job "
+        f"Admin {user['user_id']} created training job "
         f"for model {job.model}"
     )
 
@@ -71,9 +71,12 @@ def join_training_job(
 
     db = SessionLocal()
 
+    # get full user object from DB
+    organization = db.query(User).filter(User.id == user["user_id"]).first()
+
     participant = TrainingJobParticipant(
         job_id=job_id,
-        organization_id=user.id,
+        organization_id=user["user_id"],
         status="JOINED"
     )
 
@@ -81,7 +84,7 @@ def join_training_job(
     db.commit()
 
     logger.info(
-        f"Organization {user.organization_name} joined training job {job_id}"
+        f"Organization {organization.organization_name} joined training job {job_id}"
     )
 
     return {
