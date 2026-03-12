@@ -1,45 +1,38 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from datetime import datetime
-
-Base = declarative_base()
+from backend.database.db import Base
 
 
 # -----------------------------
-# Users Table (Authentication + RBAC)
+# Users Table
 # -----------------------------
 class User(Base):
 
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
-    # role user requested
     requested_role = Column(String)
-
-    # role assigned by admin
     role = Column(String)
 
-    # approval status
     status = Column(String, default="PENDING")
 
-    # hospital name stored here
     organization_name = Column(String)
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
 # -----------------------------
-# Datasets (metadata only)
+# Dataset Metadata
 # -----------------------------
 class Dataset(Base):
 
     __tablename__ = "datasets"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
     user_id = Column(Integer)
 
@@ -55,7 +48,7 @@ class TrainingJob(Base):
 
     __tablename__ = "training_jobs"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
     model_type = Column(String)
     rounds = Column(Integer)
@@ -68,18 +61,19 @@ class TrainingJob(Base):
 
 
 # -----------------------------
-# Node Participation
+# Job Participation
 # -----------------------------
-class NodeParticipation(Base):
+class TrainingJobParticipant(Base):
 
-    __tablename__ = "node_participation"
+    __tablename__ = "training_job_participants"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
-    job_id = Column(Integer)
-    user_id = Column(Integer)
+    job_id = Column(Integer, ForeignKey("training_jobs.id"))
 
-    status = Column(String)
+    organization_id = Column(Integer, ForeignKey("users.id"))
+
+    status = Column(String, default="JOINED")
 
 
 # -----------------------------
@@ -89,9 +83,10 @@ class AuditLog(Base):
 
     __tablename__ = "audit_logs"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
     action = Column(String)
+
     user_id = Column(Integer)
 
     timestamp = Column(DateTime, default=datetime.utcnow)
@@ -104,10 +99,12 @@ class ModelRegistry(Base):
 
     __tablename__ = "models"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
     model_name = Column(String)
+
     file_path = Column(String)
+
     accuracy = Column(String)
 
     created_at = Column(DateTime, default=datetime.utcnow)

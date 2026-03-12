@@ -1,23 +1,30 @@
+from backend.database.db import SessionLocal
+from backend.database.models import Dataset
 from utils.logger import logger
 
-datasets = []
 
+def register_dataset(user_id, metadata, sensitivity):
 
-def register_dataset(dataset_name, organization):
+    db = SessionLocal()
 
-    dataset = {
-        "name": dataset_name,
-        "organization": organization,
-        "location": "hospital_node"
-    }
+    dataset = Dataset(
+        user_id=user_id,
+        schema_metadata=metadata,
+        sensitivity_level=sensitivity
+    )
 
-    datasets.append(dataset)
+    db.add(dataset)
+    db.commit()
 
-    logger.info(f"Dataset registered: {dataset_name} from {organization}")
+    logger.info(f"Dataset registered for user {user_id}")
 
     return dataset
 
 
 def list_datasets():
+
+    db = SessionLocal()
+
+    datasets = db.query(Dataset).all()
 
     return datasets

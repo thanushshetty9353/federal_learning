@@ -1,20 +1,22 @@
 from fastapi import FastAPI
 
-# Existing APIs
 from backend.api import dataset_routes
 from backend.api import training_routes
 from backend.api import audit_routes
 from backend.api import admin_routes
 from backend.api import auth_routes
+from backend.api import monitoring_routes
+from backend.api import participation_routes
 
-# Database initialization
 from backend.database.db import engine
 from backend.database.models import Base
+
 
 # --------------------------------------------------
 # Create database tables automatically
 # --------------------------------------------------
 Base.metadata.create_all(bind=engine)
+
 
 # --------------------------------------------------
 # FastAPI App
@@ -25,6 +27,7 @@ app = FastAPI(
     version="1.0"
 )
 
+
 # --------------------------------------------------
 # Register API Routes
 # --------------------------------------------------
@@ -33,6 +36,9 @@ app.include_router(training_routes.router)
 app.include_router(audit_routes.router)
 app.include_router(admin_routes.router)
 app.include_router(auth_routes.router)
+app.include_router(monitoring_routes.router)
+app.include_router(participation_routes.router)
+
 
 # --------------------------------------------------
 # Root endpoint
