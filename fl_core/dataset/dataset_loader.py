@@ -1,36 +1,37 @@
+import os
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader, TensorDataset
+from sklearn.preprocessing import StandardScaler
 
 
-def load_dataset(hospital):
+def load_dataset(hospital, job_id):
 
-    if hospital == "hospital_a":
-        path = "fl_core/data/hospital_a_data.csv"
+    hospital = hospital.replace(" ", "_")
 
-    elif hospital == "hospital_b":
-        path = "fl_core/data/hospital_b_data.csv"
+    file_path = f"datasets/temp/{hospital}_{job_id}.csv"
 
-    else:
-        raise ValueError("Unknown hospital")
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(
+            f"Dataset not found for {hospital} job {job_id}. "
+            f"Expected file: {file_path}"
+        )
 
-    df = pd.read_csv(path)
+    df = pd.read_csv(file_path)
 
-    # Remove ID column
-    df = df.drop(columns=["id"])
-
-    # Features
-    X = df.drop(columns=["label"]).values
-
-    # Target
+    X = df.drop("label", axis=1).values
     y = df["label"].values
 
-    # Convert to tensors
-    X = torch.tensor(X).float()
-    y = torch.tensor(y).long()
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+
+    feature_size = X.shape[1]
+
+    X = torch.tensor(X, dtype=torch.float32)
+    y = torch.tensor(y, dtype=torch.long)
 
     dataset = TensorDataset(X, y)
 
     loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-    return loader
+    return loader, feature_size

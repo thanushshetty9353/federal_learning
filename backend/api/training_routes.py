@@ -5,6 +5,9 @@ from backend.database.db import SessionLocal
 from backend.database.models import TrainingJob, TrainingJobParticipant, User
 from utils.logger import logger
 
+import subprocess
+import sys
+
 
 router = APIRouter(
     prefix="/training-jobs",
@@ -39,6 +42,20 @@ def create_training(
         f"for model {job.model}"
     )
 
+    # Start Flower server automatically
+    try:
+        subprocess.Popen(
+            [
+                sys.executable,
+                "scripts/start_server.py"
+            ]
+        )
+
+        logger.info("Federated server started automatically")
+
+    except Exception as e:
+        logger.error(f"Server start failed: {e}")
+
     return {
         "message": "Training job created",
         "job_id": new_job.id
@@ -71,8 +88,9 @@ def join_training_job(
 
     db = SessionLocal()
 
-    # get full user object from DB
-    organization = db.query(User).filter(User.id == user["user_id"]).first()
+    organization = db.query(User).filter(
+        User.id == user["user_id"]
+    ).first()
 
     participant = TrainingJobParticipant(
         job_id=job_id,
@@ -84,10 +102,59 @@ def join_training_job(
     db.commit()
 
     logger.info(
-        f"Organization {organization.organization_name} joined training job {job_id}"
+        f"Organization {organization.organization_name} "
+        f"joined training job {job_id}"
     )
 
     return {
         "message": "Joined training job successfully",
+        "job_id": job_id
+    }
+
+
+# ------------------------------------------------
+# Organization starts training
+# ------------------------------------------------
+@router.post("/{job_id}/train")
+def start_training(
+    job_id: int,
+    user=Depends(require_role("ORG_NODE"))
+):
+
+    db = SessionLocal()
+
+    organization = db.query(User).filter(
+        User.id == user["user_id"]
+    ).first()
+
+    # Normalize organization name
+    org_name = organization.organization_name.replace(" ", "_")
+
+    try:
+
+        subprocess.Popen(
+            [
+                sys.executable,
+                "scripts/start_client.py",
+                org_name,
+                str(job_id)
+            ]
+        )
+
+        logger.info(
+            f"{org_name} started training for job {job_id}"
+        )
+
+    except Exception as e:
+
+        logger.error(f"Training start failed: {e}")
+
+        return {
+            "error": "Could not start training"
+        }
+
+    return {
+        "message": "Training started",
+        "organization": org_name,
         "job_id": job_id
     }

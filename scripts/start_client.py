@@ -16,7 +16,9 @@ hospital = sys.argv[1]
 job_id = int(sys.argv[2])
 
 
-fl.client.start_numpy_client(
+client = HospitalClient(hospital, job_id)
+
+fl.client.start_client(
     server_address="127.0.0.1:8080",
-    client=HospitalClient(hospital, job_id),
+    client=client.to_client()
 )

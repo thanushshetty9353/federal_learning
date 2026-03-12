@@ -1,18 +1,24 @@
 import torch
 import torch.nn as nn
-from utils.logger import logger
 
 
-def train(model, trainloader, epochs=1):
+def train(model, trainloader, optimizer):
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    criterion = nn.CrossEntropyLoss()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model.train()
+    model.to(device)
+
+    criterion = nn.CrossEntropyLoss()
+
+    epochs = 1
 
     for epoch in range(epochs):
 
         for X, y in trainloader:
+
+            X = X.to(device)
+            y = y.to(device)
 
             optimizer.zero_grad()
 
@@ -24,35 +30,40 @@ def train(model, trainloader, epochs=1):
 
             optimizer.step()
 
-    logger.info("Local training completed")
-    torch.save(model.state_dict(), "models/global_model.pt")
-
     return model
 
 
-def evaluate(model, loader):
+def evaluate(model, trainloader):
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    model.eval()
+    model.to(device)
 
     criterion = nn.CrossEntropyLoss()
-    model.eval()
 
-    loss = 0
-    correct = 0
     total = 0
+    correct = 0
+    total_loss = 0
 
     with torch.no_grad():
 
-        for X, y in loader:
+        for X, y in trainloader:
+
+            X = X.to(device)
+            y = y.to(device)
 
             outputs = model(X)
 
-            l = criterion(outputs, y)
-            loss += l.item()
+            loss = criterion(outputs, y)
+
+            total_loss += loss.item()
 
             _, predicted = torch.max(outputs, 1)
 
             total += y.size(0)
             correct += (predicted == y).sum().item()
 
-    accuracy = correct / total
+    accuracy = correct / total if total > 0 else 0
 
-    return loss / len(loader), accuracy
+    return total_loss, accuracy

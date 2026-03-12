@@ -1,6 +1,7 @@
 from flwr.server.strategy import FedAvg
 from utils.logger import logger
 
+
 class CustomFedAvg(FedAvg):
 
     def aggregate_fit(self, rnd, results, failures):
@@ -13,5 +14,8 @@ class CustomFedAvg(FedAvg):
         aggregated = super().aggregate_fit(rnd, results, failures)
 
         logger.info("Aggregation completed")
+
+        if aggregated is not None:
+            logger.info(f"Round {rnd} global model updated")
 
         return aggregated

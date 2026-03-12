@@ -1,7 +1,6 @@
 import flwr as fl
 import torch
 import numpy as np
-import requests
 import os
 
 from fl_core.model.model import Net
@@ -19,32 +18,21 @@ class HospitalClient(fl.client.NumPyClient):
 
     def __init__(self, hospital, job_id):
 
-        self.hospital = hospital
+        self.hospital = hospital.replace(" ", "_")
         self.job_id = job_id
 
-        self.model = Net()
+        # Load dataset
+        self.trainloader, feature_size = load_dataset(self.hospital, job_id)
 
-        # Load dataset dynamically
-        self.trainloader = load_dataset(hospital, job_id)
+        # Initialize model
+        self.model = Net(feature_size)
 
         logger.info(
-            f"{hospital} joined training for job {job_id}"
+            f"{self.hospital} joined training for job {job_id}"
         )
 
-        # Register hospital node
-        try:
-            requests.post(
-                "http://localhost:8000/nodes/register",
-                params={
-                    "node_id": hospital,
-                    "hospital": hospital
-                }
-            )
-        except Exception:
-            logger.warning("Could not register node with backend")
-
     # -------------------------------------------------
-    # Send parameters to server
+    # Send parameters
     # -------------------------------------------------
     def get_parameters(self, config):
 
@@ -81,24 +69,34 @@ class HospitalClient(fl.client.NumPyClient):
 
         self.set_parameters(parameters)
 
+        # Create optimizer
         optimizer = torch.optim.Adam(
             self.model.parameters(),
-            lr=0.001
+            lr=0.0003
         )
 
+        # Model must be train mode before DP
+        self.model.train()
+
+        # Apply Differential Privacy
         self.model, optimizer, self.trainloader = apply_differential_privacy(
             self.model,
             optimizer,
             self.trainloader
         )
 
-        self.model = train(self.model, self.trainloader)
+        # Train locally with SAME optimizer
+        self.model = train(
+            self.model,
+            self.trainloader,
+            optimizer
+        )
 
         logger.info(
             f"{self.hospital} finished local training"
         )
 
-        # delete dataset after training
+        # Delete dataset after training
         dataset_path = f"datasets/temp/{self.hospital}_{self.job_id}.csv"
 
         try:
@@ -123,6 +121,8 @@ class HospitalClient(fl.client.NumPyClient):
     def evaluate(self, parameters, config):
 
         self.set_parameters(parameters)
+
+        self.model.eval()
 
         loss, accuracy = evaluate(
             self.model,

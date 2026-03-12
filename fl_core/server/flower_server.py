@@ -11,8 +11,9 @@ def start_server(host="0.0.0.0", port="8080"):
 
     strategy = CustomFedAvg(
         fraction_fit=1.0,
-        min_fit_clients=2,
-        min_available_clients=2,
+        min_fit_clients=1,
+        min_available_clients=1,
+         min_evaluate_clients=1,
     )
 
     logger.info("Federated strategy initialized")
