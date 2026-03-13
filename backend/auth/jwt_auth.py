@@ -1,14 +1,14 @@
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 
-from fastapi import HTTPException, Depends, status
+from fastapi import HTTPException, Depends, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 
 # -----------------------------
@@ -35,10 +35,16 @@ def create_access_token(data: dict):
 # Verify JWT Token
 # -----------------------------
 def verify_token(
+    request: Request,
     credentials: HTTPAuthorizationCredentials = Depends(security)
 ):
 
-    token = credentials.credentials
+    token = None
+    if credentials:
+        token = credentials.credentials
+    else:
+        # Check query parameter for token
+        token = request.query_params.get("token")
 
     if token is None:
         raise HTTPException(

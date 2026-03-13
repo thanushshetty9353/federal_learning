@@ -38,7 +38,7 @@ export default function TrainingMonitor({ isDark: isDarkProp }) {
   // Build chart data from rounds_data or fallback
   const chartData = (metrics?.rounds_data || metrics?.history || []).map((r, i) => ({
     round: `R${r.round || i + 1}`,
-    accuracy: typeof r.accuracy === 'number' ? parseFloat((r.accuracy * 100).toFixed(2)) : null,
+    accuracy: typeof r.accuracy === 'number' ? parseFloat((r.accuracy > 1 ? r.accuracy : r.accuracy * 100).toFixed(2)) : null,
     loss: typeof r.loss === 'number' ? parseFloat(r.loss.toFixed(4)) : null,
   }));
 

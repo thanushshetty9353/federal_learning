@@ -107,7 +107,21 @@ def latest_model(
         return {"message": "No trained model available"}
 
     return {
+        "job_id": model.job_id,
         "model_name": model.model_name,
         "accuracy": model.accuracy,
-        "file_path": model.file_path
+        "file_path": model.file_path,
+        "created_at": model.created_at
     }
+
+
+# -----------------------------
+# List Models
+# -----------------------------
+@router.get("/models/list")
+def list_models_db(
+    db: Session = Depends(get_db),
+    user=Depends(require_role("ADMIN"))
+):
+    models = db.query(ModelRegistry).order_by(ModelRegistry.created_at.desc()).all()
+    return models

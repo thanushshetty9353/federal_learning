@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { CreateTrainingJob, TrainingJobsList } from '../admin/AdminComponents';
-import { TrainingStats, AuditLogs, PendingUsers, LatestModel } from '../admin/AdminComponents2';
+import { TrainingStats, AuditLogs, PendingUsers, LatestModel, ModelsList } from '../admin/AdminComponents2';
 import TrainingMonitor from '../monitoring/TrainingMonitor';
 import { useTheme } from '../../context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +13,7 @@ const MENU_ITEMS = [
   { key: 'stats', label: 'Training Statistics', icon: '📊' },
   { key: 'monitoring', label: 'Training Monitoring', icon: '📡' },
   { key: 'model', label: 'Latest Model', icon: '🧠' },
+  { key: 'load-model', label: 'Load Models', icon: '📂' },
   { key: 'logs', label: 'Audit Logs', icon: '📄' },
   { key: 'pending', label: 'Pending Users', icon: '👥' },
 ];
@@ -29,6 +30,7 @@ export default function AdminDashboard() {
       case 'stats': return <TrainingStats isDark={isDark} />;
       case 'monitoring': return <TrainingMonitor isDark={isDark} />;
       case 'model': return <LatestModel isDark={isDark} />;
+      case 'load-model': return <ModelsList isDark={isDark} />;
       case 'logs': return <AuditLogs isDark={isDark} />;
       case 'pending': return <PendingUsers isDark={isDark} />;
       default: return <CreateTrainingJob isDark={isDark} />;

@@ -253,6 +253,7 @@ export function LatestModel({ isDark }) {
 
   const downloadModel = () => {
     const token = localStorage.getItem('token');
+    // Ensure we use the correct absolute URL or relative path handled by proxy/axios
     window.open(`http://127.0.0.1:8000/training-jobs/admin/models/latest?token=${token}`, '_blank');
   };
 
@@ -284,10 +285,16 @@ export function LatestModel({ isDark }) {
             <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Model Name</span>
             <p style={{ fontWeight: 700, fontSize: '1.1rem', color: isDark ? '#e2e8f0' : '#1e293b', margin: '0.25rem 0 0' }}>{model.model_name}</p>
           </div>
+          {model.job_id && (
+            <div>
+              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Associated Job</span>
+              <p style={{ fontWeight: 700, fontSize: '1.1rem', color: '#6366f1', margin: '0.25rem 0 0' }}>Job #{model.job_id}</p>
+            </div>
+          )}
           {model.accuracy && (
             <div>
               <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Accuracy</span>
-              <p style={{ fontWeight: 700, fontSize: '1.5rem', color: '#10b981', margin: '0.25rem 0 0' }}>{(model.accuracy * 100).toFixed(2)}%</p>
+              <p style={{ fontWeight: 700, fontSize: '1.5rem', color: '#10b981', margin: '0.25rem 0 0' }}>{(parseFloat(model.accuracy) * 100).toFixed(2)}%</p>
             </div>
           )}
           <button onClick={downloadModel} className="btn-primary" style={{ alignSelf: 'flex-start', marginTop: '0.5rem' }}>
@@ -295,6 +302,70 @@ export function LatestModel({ isDark }) {
           </button>
         </div>
       ) : null}
+    </div>
+  );
+}
+
+export function ModelsList({ isDark }) {
+  const [models, setModels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const fetchModels = async () => {
+    setLoading(true);
+    try {
+      const res = await axiosClient.get('/admin/models/list');
+      setModels(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to load models list.');
+    } finally { setLoading(false); }
+  };
+
+  useEffect(() => { fetchModels(); }, []);
+
+  const downloadModel = () => {
+    const token = localStorage.getItem('token');
+    window.open(`http://127.0.0.1:8000/training-jobs/admin/models/latest?token=${token}`, '_blank');
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <h2 style={{ fontWeight: 700, fontSize: '1.25rem', color: isDark ? '#e2e8f0' : '#1e293b' }}>📂 Load Models</h2>
+        <button onClick={fetchModels} className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>Refresh</button>
+      </div>
+      {error && <AlertBanner msg={error} type="error" />}
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>Loading models...</div>
+      ) : models.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>No trained models yet.</div>
+      ) : (
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(99,102,241,0.15)' }}>
+                {['Job ID', 'Model Name', 'Accuracy', 'Created At', 'Action'].map(h => (
+                  <th key={h} style={{ padding: '0.75rem 1rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {models.map((m, i) => (
+                <motion.tr key={m.id || i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                  style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(99,102,241,0.07)' }}>
+                  <td style={{ padding: '0.85rem 1rem', fontWeight: 600, color: '#6366f1' }}>#{m.job_id || '—'}</td>
+                  <td style={{ padding: '0.85rem 1rem', color: isDark ? '#e2e8f0' : '#1e293b', fontSize: '0.9rem' }}>{m.model_name}</td>
+                  <td style={{ padding: '0.85rem 1rem', color: '#10b981', fontWeight: 700 }}>{(parseFloat(m.accuracy || 0) * 100).toFixed(2)}%</td>
+                  <td style={{ padding: '0.85rem 1rem', color: isDark ? '#94a3b8' : '#475569', fontSize: '0.8rem' }}>{new Date(m.created_at).toLocaleString()}</td>
+                  <td style={{ padding: '0.85rem 1rem' }}>
+                    <button onClick={downloadModel} className="btn-primary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.75rem' }}>⬇ Download</button>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

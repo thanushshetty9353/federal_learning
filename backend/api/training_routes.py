@@ -67,7 +67,7 @@ def create_training(
         try:
 
             subprocess.Popen(
-                [sys.executable, SERVER_SCRIPT],
+                [sys.executable, SERVER_SCRIPT, str(new_job.id)],
                 cwd=BASE_DIR
             )
 

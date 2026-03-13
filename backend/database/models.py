@@ -103,10 +103,12 @@ class ModelRegistry(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
+    job_id = Column(Integer, ForeignKey("training_jobs.id"), nullable=True)
+
     model_name = Column(String)
 
     file_path = Column(String)
 
-    accuracy = Column(String)
+    accuracy = Column(String)  # Keeping as string for now to avoid migration issues, but will store as stringified float
 
     created_at = Column(DateTime, default=datetime.utcnow)

@@ -1,5 +1,7 @@
 import os
 import torch
+from backend.database.db import SessionLocal
+from backend.database.models import ModelRegistry
 
 from utils.logger import logger
 
@@ -23,7 +25,7 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 # ------------------------------------------------
 # Save latest global model
 # ------------------------------------------------
-def save_latest_model(weights):
+def save_latest_model(weights, job_id=None, accuracy=0.0):
 
     model_path = os.path.join(
         MODEL_DIR,
@@ -32,8 +34,34 @@ def save_latest_model(weights):
 
     torch.save(weights, model_path)
 
+    # Register in database
+    db = SessionLocal()
+    try:
+        # Check if an entry for this job already exists
+        model_entry = None
+        if job_id:
+            model_entry = db.query(ModelRegistry).filter(ModelRegistry.job_id == job_id).first()
+        
+        if not model_entry:
+            model_entry = ModelRegistry(
+                job_id=job_id,
+                model_name=f"Model for Job #{job_id}" if job_id else "Latest Global Model",
+                file_path=model_path,
+                accuracy=str(accuracy)
+            )
+            db.add(model_entry)
+        else:
+            model_entry.accuracy = str(accuracy)
+            model_entry.file_path = model_path
+        
+        db.commit()
+    except Exception as e:
+        logger.error(f"[MODEL MANAGER] Database update failed: {e}")
+    finally:
+        db.close()
+
     logger.info(
-        f"[MODEL MANAGER] Latest model saved -> {model_path}"
+        f"[MODEL MANAGER] Latest model saved and registered -> {model_path}"
     )
 
 
