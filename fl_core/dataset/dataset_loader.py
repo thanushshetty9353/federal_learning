@@ -4,12 +4,22 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.preprocessing import StandardScaler
 
+# Get project root directory
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+
 
 def load_dataset(hospital, job_id):
 
     hospital = hospital.replace(" ", "_")
 
-    file_path = f"datasets/temp/{hospital}_{job_id}.csv"
+    file_path = os.path.join(
+        BASE_DIR,
+        "datasets",
+        "temp",
+        f"{hospital}_{job_id}.csv"
+    )
+
+    print("Looking for dataset at:", file_path)   # debug line
 
     if not os.path.exists(file_path):
         raise FileNotFoundError(

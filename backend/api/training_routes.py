@@ -7,12 +7,25 @@ from utils.logger import logger
 
 import subprocess
 import sys
+import os
+import time
 
 
 router = APIRouter(
     prefix="/training-jobs",
     tags=["Training Jobs"]
 )
+
+
+# Prevent starting multiple servers
+flower_server_started = False
+
+# Project root directory
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+# Paths to scripts
+SERVER_SCRIPT = os.path.join(BASE_DIR, "scripts", "start_server.py")
+CLIENT_SCRIPT = os.path.join(BASE_DIR, "scripts", "start_client.py")
 
 
 # ------------------------------------------------
@@ -23,6 +36,8 @@ def create_training(
     job: TrainingJobCreate,
     user=Depends(require_role("ADMIN"))
 ):
+
+    global flower_server_started
 
     db = SessionLocal()
 
@@ -42,19 +57,26 @@ def create_training(
         f"for model {job.model}"
     )
 
-    # Start Flower server automatically
-    try:
-        subprocess.Popen(
-            [
-                sys.executable,
-                "scripts/start_server.py"
-            ]
-        )
+    # Start Flower server automatically (only once)
+    if not flower_server_started:
 
-        logger.info("Federated server started automatically")
+        try:
 
-    except Exception as e:
-        logger.error(f"Server start failed: {e}")
+            subprocess.Popen(
+                [sys.executable, SERVER_SCRIPT],
+                cwd=BASE_DIR
+            )
+
+            flower_server_started = True
+
+            logger.info("Federated server started automatically")
+
+            # Wait for server to initialize
+            time.sleep(3)
+
+        except Exception as e:
+
+            logger.error(f"Server start failed: {e}")
 
     return {
         "message": "Training job created",
@@ -135,10 +157,11 @@ def start_training(
         subprocess.Popen(
             [
                 sys.executable,
-                "scripts/start_client.py",
+                CLIENT_SCRIPT,
                 org_name,
                 str(job_id)
-            ]
+            ],
+            cwd=BASE_DIR
         )
 
         logger.info(
