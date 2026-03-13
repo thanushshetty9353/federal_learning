@@ -89,7 +89,7 @@ def create_training(
 # ------------------------------------
 @router.get("/list")
 def list_training_jobs(
-    user=Depends(require_role("ORG_NODE"))
+    user=Depends(require_role("ORG_NODE","ADMIN"))
 ):
 
     db = SessionLocal()

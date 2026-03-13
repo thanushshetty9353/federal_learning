@@ -7,7 +7,7 @@ router = APIRouter(prefix="/audit", tags=["Audit"])
 
 
 @router.get("/logs")
-def get_logs(user=Depends(require_role("AUDITOR"))):
+def get_logs(user=Depends(require_role("AUDITOR","ADMIN"))):
 
     with open("logs/training.log") as f:
         logs = f.readlines()
