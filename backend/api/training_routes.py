@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Depends
+from fastapi.responses import FileResponse
+
 from backend.schemas.training_schema import TrainingJobCreate
 from backend.auth.rbac import require_role
 from backend.database.db import SessionLocal
 from backend.database.models import TrainingJob, TrainingJobParticipant, User
+
 from utils.logger import logger
 
 import subprocess
@@ -20,10 +23,12 @@ router = APIRouter(
 # Prevent starting multiple servers
 flower_server_started = False
 
-# Project root directory
+# Project backend directory
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 
-# Paths to scripts
+# Project root directory
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
+
 SERVER_SCRIPT = os.path.join(BASE_DIR, "scripts", "start_server.py")
 CLIENT_SCRIPT = os.path.join(BASE_DIR, "scripts", "start_client.py")
 
@@ -53,8 +58,7 @@ def create_training(
     db.refresh(new_job)
 
     logger.info(
-        f"Admin {user['user_id']} created training job "
-        f"for model {job.model}"
+        f"Admin {user['user_id']} created training job for model {job.model}"
     )
 
     # Start Flower server automatically (only once)
@@ -71,7 +75,6 @@ def create_training(
 
             logger.info("Federated server started automatically")
 
-            # Wait for server to initialize
             time.sleep(3)
 
         except Exception as e:
@@ -84,12 +87,12 @@ def create_training(
     }
 
 
-# ------------------------------------
-# Organizations view available jobs
-# ------------------------------------
+# ------------------------------------------------
+# List jobs (Admin + Organization)
+# ------------------------------------------------
 @router.get("/list")
 def list_training_jobs(
-    user=Depends(require_role("ORG_NODE","ADMIN"))
+    user=Depends(require_role("ORG_NODE", "ADMIN"))
 ):
 
     db = SessionLocal()
@@ -124,8 +127,7 @@ def join_training_job(
     db.commit()
 
     logger.info(
-        f"Organization {organization.organization_name} "
-        f"joined training job {job_id}"
+        f"Organization {organization.organization_name} joined training job {job_id}"
     )
 
     return {
@@ -149,7 +151,6 @@ def start_training(
         User.id == user["user_id"]
     ).first()
 
-    # Normalize organization name
     org_name = organization.organization_name.replace(" ", "_")
 
     try:
@@ -181,3 +182,67 @@ def start_training(
         "organization": org_name,
         "job_id": job_id
     }
+
+
+# ------------------------------------------------
+# Admin: View job participation stats
+# ------------------------------------------------
+@router.get("/admin/job-stats")
+def job_stats(
+    user=Depends(require_role("ADMIN"))
+):
+
+    db = SessionLocal()
+
+    jobs = db.query(TrainingJob).all()
+
+    response = []
+
+    for job in jobs:
+
+        participants = db.query(
+            TrainingJobParticipant
+        ).filter(
+            TrainingJobParticipant.job_id == job.id
+        ).count()
+
+        response.append({
+            "job_id": job.id,
+            "model": job.model_type,
+            "rounds": job.rounds,
+            "participants": participants,
+            "status": job.status
+        })
+
+    return response
+
+
+# ------------------------------------------------
+# Admin: Download latest trained model
+# ------------------------------------------------
+@router.get("/admin/models/latest")
+def download_latest_model(
+    user=Depends(require_role("ADMIN"))
+):
+
+    project_root = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../..")
+    )
+
+    model_path = os.path.join(project_root, "models", "latest_model.pt")
+
+    logger.info(f"Admin requested model download: {model_path}")
+
+    if not os.path.exists(model_path):
+
+        logger.warning(f"Model not found at {model_path}")
+
+        return {
+            "error": "No trained model available"
+        }
+
+    return FileResponse(
+        path=model_path,
+        filename="latest_global_model.pt",
+        media_type="application/octet-stream"
+    )
