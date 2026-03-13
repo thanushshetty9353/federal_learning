@@ -26,12 +26,17 @@ export function CreateTrainingJob({ isDark }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.job_name) { setAlert({ msg: 'Job name is required.', type: 'error' }); return; }
-    setLoading(true);
+    const payload = {
+      ...form,
+      privacy_budget: String(form.privacy_budget)
+    };
+
     try {
-      await axiosClient.post('/training-jobs/create', form);
+      await axiosClient.post('/training-jobs/create', payload);
       setAlert({ msg: 'Training job created successfully! Federated server starting...', type: 'success' });
       setForm({ job_name: '', model: 'logistic_regression', rounds: 5, privacy_budget: 1.0 });
     } catch (err) {
+      console.error('Create Job Error:', err);
       setAlert({ msg: err.response?.data?.detail || 'Failed to create job.', type: 'error' });
     } finally {
       setLoading(false);
@@ -129,16 +134,19 @@ export function TrainingJobsList({ isDark }) {
               </tr>
             </thead>
             <tbody>
-              {jobs.map((job, i) => (
-                <motion.tr key={job.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                  style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(99,102,241,0.07)' }}>
-                  <td style={{ padding: '0.85rem 1rem', fontWeight: 600, color: '#6366f1' }}>#{job.id}</td>
-                  <td style={{ padding: '0.85rem 1rem', color: isDark ? '#e2e8f0' : '#1e293b', fontSize: '0.9rem' }}>{job.model_type || job.model || 'N/A'}</td>
-                  <td style={{ padding: '0.85rem 1rem', color: isDark ? '#94a3b8' : '#475569' }}>{job.rounds}</td>
-                  <td style={{ padding: '0.85rem 1rem', color: isDark ? '#94a3b8' : '#475569' }}>{job.participants ?? '—'}</td>
-                  <td style={{ padding: '0.85rem 1rem' }}><span className={statusStyle(job.status)}>{job.status}</span></td>
-                </motion.tr>
-              ))}
+              {jobs.map((job, i) => {
+                if (!job) return null;
+                return (
+                  <motion.tr key={job.id || i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                    style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(99,102,241,0.07)' }}>
+                    <td style={{ padding: '0.85rem 1rem', fontWeight: 600, color: '#6366f1' }}>#{job.id}</td>
+                    <td style={{ padding: '0.85rem 1rem', color: isDark ? '#e2e8f0' : '#1e293b', fontSize: '0.9rem' }}>{job.model_type || job.model || 'N/A'}</td>
+                    <td style={{ padding: '0.85rem 1rem', color: isDark ? '#94a3b8' : '#475569' }}>{job.rounds}</td>
+                    <td style={{ padding: '0.85rem 1rem', color: isDark ? '#94a3b8' : '#475569' }}>{job.participants ?? '—'}</td>
+                    <td style={{ padding: '0.85rem 1rem' }}><span className={statusStyle(job.status)}>{job.status}</span></td>
+                  </motion.tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

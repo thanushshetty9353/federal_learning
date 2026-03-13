@@ -40,18 +40,20 @@ export default function AdminDashboard() {
       <Navbar />
       <div style={{ display: 'flex' }}>
         <Sidebar menuItems={MENU_ITEMS} activeSection={activeSection} onSelect={setActiveSection} />
-        <main style={{ flex: 1, padding: '2rem' }}>
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-            className={isDark ? 'glass-card' : 'glass-card-light'}
-            style={{ padding: '2rem', minHeight: 'calc(100vh - 160px)' }}
-          >
-            {renderContent()}
-          </motion.div>
+        <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSection}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className={isDark ? 'glass-card' : 'glass-card-light'}
+              style={{ padding: '2rem', minHeight: 'calc(100vh - 160px)' }}
+            >
+              {renderContent() || <div style={{ color: '#64748b' }}>Select a section from the sidebar.</div>}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>
