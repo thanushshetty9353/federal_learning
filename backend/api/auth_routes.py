@@ -6,7 +6,7 @@ from backend.database.db import SessionLocal
 from backend.database.models import User
 
 from backend.auth.password_utils import hash_password, verify_password
-from backend.auth.jwt_auth import create_access_token
+from backend.auth.jwt_auth import create_access_token, get_current_user
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -108,3 +108,36 @@ def login_user(
         "role": user.role,
         "organization": user.organization_name
     }
+
+# -------------------------
+# Check Approval Status
+# -------------------------
+@router.get("/check-approval")
+def check_approval(email: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {
+        "email": email,
+        "status": user.status,
+        "approved": user.status == "APPROVED"
+    }
+
+
+# -------------------------
+# Get Current User Info
+# -------------------------
+@router.get("/me")
+def get_me(user_info: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_info["user_id"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    return {
+        "id": user.id,
+        "email": user.email,
+        "role": user.role,
+        "organization": user.organization_name
+    }
+

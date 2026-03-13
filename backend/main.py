@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api import dataset_routes
 from backend.api import training_routes
@@ -24,6 +25,15 @@ app = FastAPI(
     title="Privacy Preserving Federated Learning Platform",
     description="Platform for privacy-preserving collaborative AI training using Federated Learning",
     version="1.0"
+)
+
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
