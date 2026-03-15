@@ -1,3 +1,16 @@
 venv/
 __pycache__/
 *.pyc
+
+# Local Database
+*.db
+
+# Logs
+logs/
+*.log
+
+# Trained Models
+models/*.pt
+
+# Local Scripts
+scripts/create_admin.py
